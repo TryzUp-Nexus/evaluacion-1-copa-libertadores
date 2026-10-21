@@ -29,7 +29,7 @@ Las consultas de país y nombre no distinguen mayúsculas y minúsculas. Las til
 
 ## Video de defensa
 
-**Enlace:** PENDIENTE — reemplazar por URL de YouTube pública o no listada antes de entregar.
+**Enlace:** https://youtu.be/zgoFrUV7w_g
 
 ## Estructura
 

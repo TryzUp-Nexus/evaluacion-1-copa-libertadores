@@ -19,12 +19,12 @@ app.get("/api/clubes", (req, res) => {
   if (!pais)
     return res
       .status(404)
-      .json({ error: `No existe el país ${req.query.pais}` });
+      .json({error: `No existe el país ${req.query.pais}` });
   const clubesDelPais = clubes.filter((club) => club.paisId === pais.id);
   return res.status(200).json(clubesDelPais);
 });
 
-// GET /api/clubes/9
+// GET /api/clubes/
 app.get("/api/clubes/:id", (req, res) => {
   const id = Number(req.params.id);
   const club = clubes.find((item) => item.id === id);
@@ -35,13 +35,7 @@ app.get("/api/clubes/:id", (req, res) => {
   return res.status(200).json(club);
 });
 
-// Extra opcional: años de todos los títulos, ordenados.
-app.get("/api/titulos", (_req, res) => {
-  const anios = clubes.flatMap((club) => club.titulos).sort((a, b) => a - b);
-  return res.status(200).json(anios);
-});
-
-// GET /api/titulos/colo-colo
+// GET /api/titulos/
 app.get("/api/titulos/:club", (req, res) => {
   const nombre = normalizar(req.params.club).replaceAll("-", " ");
   const club = clubes.find(
@@ -54,14 +48,21 @@ app.get("/api/titulos/:club", (req, res) => {
   return res.status(200).json(club.titulos);
 });
 
-// Extra opcional: estadísticas usando reduce.
+// Desafio extra 1: GET /api/titulos - años de todos los títulos, ordenados.
+app.get("/api/titulos", (_req, res) => {
+  const anios = clubes.flatMap((club) => club.titulos).sort((a, b) => a - b);
+  return res.status(200).json(anios);
+});
+
+// Desafio extra 2: GET /api/estadisticas - estadísticas usando reduce.
 app.get("/api/estadisticas", (_req, res) => {
   const titulosPorPais = paises.map((pais) => ({
     pais: pais.nombre,
     titulos: clubes
       .filter((club) => club.paisId === pais.id)
       .reduce((total, club) => total + club.titulos.length, 0),
-  }));
+    })
+  );
   const totalTitulos = clubes.reduce(
     (total, club) => total + club.titulos.length,
     0,
